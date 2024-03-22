@@ -5,7 +5,7 @@
 ls -l
 
 # cd giskard_examples/binder/rasa/
-cd binder/rasa/
+cd rasa/
 
 python3 --version
 

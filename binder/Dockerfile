@@ -154,6 +154,7 @@ RUN pip install --upgrade --force-reinstall flask-sqlalchemy sqlalchemy
 
 RUN cd ${ROS_WS}/src/mujoco_robots && git pull
 
+RUN chmod -R a+rwx ${PWD}/binder/rasa
 # ------------------Training RASA model-------------------------------------
 
 # WORKDIR /home/${NB_USER}/bootstrapping_giskard/binder/rasa
@@ -254,7 +255,7 @@ RUN pip install --upgrade \
   sidecar \
   Cython \
   openai \
-  # jupyterlab-git \
+  jupyterlab-git \
   jupyterlab-unfold \
   jupyter-archive \
   jupyterlab-search-replace \
