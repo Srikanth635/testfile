@@ -126,9 +126,9 @@ RUN catkin build
 # # install the dependencies and packages in the requirements file
 # RUN pip install --no-cache-dir -r requirements.txt
 
-# RUN spacy download en_core_web_sm
+RUN pip install spacy && spacy download en_core_web_sm && pip install nltk
 
-# RUN python -m nltk.downloader punkt && python -m nltk.downloader wordnet
+RUN python -m nltk.downloader punkt && python -m nltk.downloader wordnet
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
