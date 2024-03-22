@@ -155,7 +155,7 @@ RUN pip install --upgrade --force-reinstall flask-sqlalchemy sqlalchemy
 RUN cd ${ROS_WS}/src/mujoco_robots && git pull
 
 # RUN chmod -R a+rwx ${PWD}/binder/rasa
-RUN wget "https://huggingface.co/google-bert/bert-large-uncased/resolve/main/model.safetensors?download=true" -O model.safetensors -P ${PWD}/binder/rasa/RASA/models--bert-large-uncased/snapshots/6da4b6a26a1877e173fca3225479512db81a5e5b/
+RUN wget "https://huggingface.co/google-bert/bert-large-uncased/resolve/main/model.safetensors?download=true" -O /home/${NB_USER}/bootstrapping_giskard/binder/rasa/RASA/models--bert-large-uncased/snapshots/6da4b6a26a1877e173fca3225479512db81a5e5b/model.safetensors
 # ------------------Training RASA model-------------------------------------
 
 # WORKDIR /home/${NB_USER}/bootstrapping_giskard/binder/rasa
