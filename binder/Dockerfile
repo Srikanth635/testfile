@@ -27,9 +27,9 @@ RUN ls -l
 
 RUN python --version
 
-USER ${NB_USER}
+# USER ${NB_USER}
 
-RUN rasa train nlu
+# RUN rasa train nlu
 
 # SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
