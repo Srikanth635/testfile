@@ -143,7 +143,7 @@ WORKDIR /home/${NB_USER}/bootstrapping_giskard
 RUN git config --global --add safe.directory ${PWD}
 # Soft link the ROS workspace directory to the working directory
 RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
-RUN ln -s ${RASA_WS}/src ${PWD}/Rasa
+# RUN ln -s ${RASA_WS}/src ${PWD}/Rasa
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
 COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupyter/lab/settings/overrides.json
@@ -154,7 +154,8 @@ RUN pip install --upgrade --force-reinstall flask-sqlalchemy sqlalchemy
 
 RUN cd ${ROS_WS}/src/mujoco_robots && git pull
 
-RUN chmod -R a+rwx ${PWD}/binder/rasa
+# RUN chmod -R a+rwx ${PWD}/binder/rasa
+RUN wget "https://huggingface.co/google-bert/bert-large-uncased/resolve/main/model.safetensors?download=true" -O model.safetensors -P ${PWD}/binder/rasa/RASA/models--bert-large-uncased/snapshots/6da4b6a26a1877e173fca3225479512db81a5e5b/
 # ------------------Training RASA model-------------------------------------
 
 # WORKDIR /home/${NB_USER}/bootstrapping_giskard/binder/rasa
