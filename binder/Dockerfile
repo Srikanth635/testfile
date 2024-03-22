@@ -29,12 +29,13 @@ USER root
 
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
+RUN apt-get install ripgrep
 USER ${NB_USER}
 
 RUN pip uninstall -y jlab-enhanced-cell-toolbar
 RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/dist/jupyterlab_rviz-0.3.2.tar.gz \
   https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
-RUN mamba install -y ripgrep
+# RUN mamba install -y ripgrep
 
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
