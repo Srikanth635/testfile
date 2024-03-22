@@ -1,13 +1,13 @@
-FROM intel4coro/base-notebook:20.04-noetic-full-xpra
+# FROM intel4coro/base-notebook:20.04-noetic-full-xpra
+FROM intel4coro/base-notebook:20.04-noetic
 
 #------------------------------------------rasa38 Conda Env (Python 3.8) for rasa packages------------------------------------------
+
 USER root
 
 RUN conda create -n rasa38 python=3.8 && echo "conda activate rasa38" >> ~/.bashrc
 
 SHELL ["conda", "run", "-n", "rasa38", "/bin/bash", "-c"]
-
-# USER ${NB_USER}
 
 RUN pip install rasa && pip install rasa[spacy] && pip install transformers && pip install nltk
 
@@ -21,21 +21,10 @@ ENV RASA_WS=/home/${NB_USER}/workspace/rasa
 WORKDIR ${RASA_WS}/src
 COPY --chown=${NB_USER}:users binder/rasa ${RASA_WS}/src/
 RUN chmod -R a+rwx ${PWD}
-
-RUN ls -l
 # SHELL ["conda", "run", "-n", "rasa38", "/bin/bash", "-c"]
 
-RUN python --version
-
-# USER ${NB_USER}
-
-# RUN rasa train nlu
-
-# SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
-
-# RUN python --version
-
 #------------------------------------------Switch to base Conda Env (Python 3.10)------------------------------------------
+
 USER root
 
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
@@ -119,18 +108,9 @@ RUN catkin build
 # ENV OPENAI_API_KEY="sk-4e6e40294b4da6fd87ddc0a4aae645a4"
 
 # -----------------------------------------------------------------------------
-# ENV BOOT_WS=/home/${NB_USER}/workspace/bootstrap
-# WORKDIR ${BOOT_WS}/src
-# COPY --chown=${NB_USER}:users binder/bootstrap/requirements.txt ${BOOT_WS}/src/requirements.txt
-
-# # install the dependencies and packages in the requirements file
-# RUN pip install --no-cache-dir -r requirements.txt
-
 RUN pip install spacy && spacy download en_core_web_sm && pip install nltk
 
 RUN python -m nltk.downloader punkt && python -m nltk.downloader wordnet
-# -----------------------------------------------------------------------------
-
 # -----------------------------------------------------------------------------
 
 # Copy the giskard tmp meshes to skip the converting step
@@ -143,7 +123,6 @@ WORKDIR /home/${NB_USER}/bootstrapping_giskard
 RUN git config --global --add safe.directory ${PWD}
 # Soft link the ROS workspace directory to the working directory
 RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
-# RUN ln -s ${RASA_WS}/src ${PWD}/Rasa
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
 COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupyter/lab/settings/overrides.json
@@ -155,23 +134,8 @@ RUN pip install --upgrade --force-reinstall flask-sqlalchemy sqlalchemy
 RUN cd ${ROS_WS}/src/mujoco_robots && git pull
 
 # RUN chmod -R a+rwx ${PWD}/binder/rasa
-RUN wget "https://huggingface.co/google-bert/bert-large-uncased/resolve/main/model.safetensors?download=true" -O /home/${NB_USER}/bootstrapping_giskard/binder/rasa/RASA/models--bert-large-uncased/snapshots/6da4b6a26a1877e173fca3225479512db81a5e5b/model.safetensors
-# ------------------Training RASA model-------------------------------------
-
-# WORKDIR /home/${NB_USER}/bootstrapping_giskard/binder/rasa
-# USER root
-# RUN chmod -R a+rwx ${PWD}
-# USER ${NB_USER}
-# RUN ls -l
-# SHELL ["conda", "run", "-n", "rasa38", "/bin/bash", "-c"]
-
-# RUN python --version
-
-# RUN rasa train nlu
-
-# SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
-
-# RUN python --version
+RUN wget "https://huggingface.co/google-bert/bert-large-uncased/resolve/main/model.safetensors?download=true" \
+  -O ${PWD}/binder/rasa/RASA/models--bert-large-uncased/snapshots/6da4b6a26a1877e173fca3225479512db81a5e5b/model.safetensors
 
 # -------------------------------------------------------------------------
 
