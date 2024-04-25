@@ -14,12 +14,12 @@ RUN pip install rasa && pip install rasa[spacy] && pip install transformers && p
 RUN python -m spacy download en_core_web_sm && python -m nltk.downloader punkt && python -m nltk.downloader wordnet
 
 # Initiate RASA workspace 
-COPY --chown=${NB_USER}:users binder/rasa.sh /home/${NB_USER}/rasa.sh
-RUN chmod +x /home/${NB_USER}/rasa.sh
+COPY binder/rasa.sh /home/rasa.sh
+RUN chmod +x /home/rasa.sh
 
-ENV RASA_WS=/home/${NB_USER}/workspace/rasa
+ENV RASA_WS=/home/workspace/rasa
 WORKDIR ${RASA_WS}/src
-COPY --chown=${NB_USER}:users binder/rasa ${RASA_WS}/src/
+COPY binder/rasa ${RASA_WS}/src/
 RUN chmod -R a+rwx ${PWD}
 # SHELL ["conda", "run", "-n", "rasa38", "/bin/bash", "-c"]
 
@@ -47,5 +47,3 @@ RUN pip install --upgrade \
   jupyter-collaboration \
   openai \
   jupyter-ai
-
-WORKDIR /home/${NB_USER}/bootstrapping_giskard/
