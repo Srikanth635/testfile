@@ -3,7 +3,7 @@ FROM intel4coro/base-notebook:20.04-noetic
 
 #------------------------------------------rasa38 Conda Env (Python 3.8) for rasa packages------------------------------------------
 
-COPY --chown=${NB_USER}:users binder/rasa.sh /home/${NB_USER}/rasa.sh
+COPY --chown=${NB_USER}:users ../binder/rasa.sh /home/${NB_USER}/rasa.sh
 RUN chmod +x /home/${NB_USER}/rasa.sh
 # SHELL ["conda", "run", "-n", "rasa38", "/bin/bash", "-c"]
 
